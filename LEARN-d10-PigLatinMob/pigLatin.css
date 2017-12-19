@@ -1,0 +1,35 @@
+#outcome {
+  float: right;
+}
+
+#arrow {
+  margin:auto;
+  text-align: center;
+  font-size: 80px;
+  font-weight: 400;
+  margin-bottom: -20px;
+}
+
+body{
+  background-color: #58A4B0;
+}
+
+.jumbotron{
+  margin-top: 20%;
+
+}
+
+.button{
+  margin: auto;
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #7C878C;
+}
+
+#centerText{
+  text-align: center;
+}
+
+h1{
+  font-weight: 800;
+}

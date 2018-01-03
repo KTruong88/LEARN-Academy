@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Trivia Questions</title>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/trivia">Questions</a>
+        </li>
+      </ul>
+    </nav>
+    <h1>Answer These Questions</h1>
+    <ul>
+      <% questions.map(function(el){ %>
+        <li>
+          <a href="/trivia/<%= el.id %>">
+          <%= el.question %>
+        </li>
+      <% })%>
+    </ul>
+  </body>
+</html>

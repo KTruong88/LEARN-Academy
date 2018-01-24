@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 const EMPTY = 0;
-const SHIP = 1;
-const SHIP_HIT = "HIT";
+const SHIP = "SHIP";
+const SHIP_HIT = "HIT!";
 const EMPTY_HIT = "MISS";
 
 class Board extends Component {
@@ -11,14 +11,14 @@ class Board extends Component {
     this.state = {
       board: [],
       bgColor: 'lightblue',
+      torpedoes: 25,
+      battleships: 5
     }
     this.setUpBoard()
   }
 
-  componentWillMount(){
-    for(let i = 0; i < 5; i++){
-      this.placeShip()
-    }
+  componentWillMount() {
+    this.placeShips()
   }
 
   setUpBoard() {
@@ -30,44 +30,216 @@ class Board extends Component {
         board[row][col] = EMPTY
       }
     }
-
-    console.log(board);
-
     this.state.board = board
   }
 
-  placeShip() {
-
-    let i = 0;
-    // get the array out of the state
+  aircraftCarrierVertical() {
     let newBoard = this.state.board
+    let row = Math.floor(Math.random() * 6)
+    let col = Math.floor(Math.random() * 10)
 
-    while(i < 1){
-      let row = Math.floor(Math.random() * 10)
-      let col = Math.floor(Math.random() * 10)
-      // update it
-      if(!newBoard[row][col] || newBoard[row][col].length === 0) {
-        newBoard[row][col] = SHIP
-        i++
-      }
+    if (!newBoard[row][col] && !newBoard[row+1][col] &&
+      !newBoard[row+2][col] && !newBoard[row+3][col] && !newBoard[row+4][col]) {
+      newBoard[row][col] = SHIP
+      newBoard[row+1][col] = SHIP
+      newBoard[row+2][col] = SHIP
+      newBoard[row+3][col] = SHIP
+      newBoard[row+4][col] = SHIP
+    } else {
+      this.aircraftCarrierVertical()
     }
-    // put it back with set state
-    this.setState({
-      board: newBoard
-    })
+  }
+
+  aircraftCarrierHorizontal() {
+    let newBoard = this.state.board
+    let row = Math.floor(Math.random() * 10)
+    let col = Math.floor(Math.random() * 6)
+
+    if (!newBoard[row][col] && !newBoard[row][col+1] &&
+      !newBoard[row][col+2] && !newBoard[row][col+3] && !newBoard[row][col+4]) {
+      newBoard[row][col] = SHIP
+      newBoard[row][col+1] = SHIP
+      newBoard[row][col+2] = SHIP
+      newBoard[row][col+3] = SHIP
+      newBoard[row][col+4] = SHIP
+    } else {
+      this.aircraftCarrierHorizontal
+    }
+  }
+
+  uShipVertical() {
+    let newBoard = this.state.board
+    let row = Math.floor(Math.random() * 10)
+    let col = Math.floor(Math.random() * 7)
+
+    if (!newBoard[row][col] && !newBoard[row][col+1] &&
+      !newBoard[row][col+2] && !newBoard[row][col+3]) {
+      newBoard[row][col] = SHIP
+      newBoard[row][col+1] = SHIP
+      newBoard[row][col+2] = SHIP
+      newBoard[row][col+3] = SHIP
+    } else {
+      this.uShipVertical()
+    }
+  }
+
+  uShipHorizontal() {
+    let newBoard = this.state.board
+    let row = Math.floor(Math.random() * 6)
+    let col = Math.floor(Math.random() * 10)
+
+    if (!newBoard[row][col] && !newBoard[row][col+1] &&
+      !newBoard[row][col+2] && !newBoard[row][col+3]) {
+      newBoard[row][col] = SHIP
+      newBoard[row][col+1] = SHIP
+      newBoard[row][col+2] = SHIP
+      newBoard[row][col+3] = SHIP
+    } else {
+      this.uShipHorizontal()
+    }
+  }
+
+  submarineVertical() {
+    let newBoard = this.state.board
+    let row = Math.floor(Math.random() * 10)
+    let col = Math.floor(Math.random() * 8)
+
+    if (!newBoard[row][col] && !newBoard[row][col+1] &&
+      !newBoard[row][col+2]) {
+      newBoard[row][col] = SHIP
+      newBoard[row][col+1] = SHIP
+      newBoard[row][col+2] = SHIP
+    } else {
+      this.submarineVertical()
+    }
+  }
+
+  submarineHorizontal() {
+    let newBoard = this.state.board
+    let row = Math.floor(Math.random() * 7)
+    let col = Math.floor(Math.random() * 10)
+
+    if (!newBoard[row][col] && !newBoard[row][col+1] &&
+      !newBoard[row][col+2]) {
+      newBoard[row][col] = SHIP
+      newBoard[row][col+1] = SHIP
+      newBoard[row][col+2] = SHIP
+    } else {
+      this.submarineHorizontal()
+    }
+  }
+
+  cruiserVertical() {
+    let newBoard = this.state.board
+    let row = Math.floor(Math.random() * 10)
+    let col = Math.floor(Math.random() * 9)
+
+    if (!newBoard[row][col] && !newBoard[row][col+1]) {
+      newBoard[row][col] = SHIP
+      newBoard[row][col+1] = SHIP
+    } else {
+      this.cruiserVertical()
+    }
+  }
+
+  cruiserHorizontal() {
+    let newBoard = this.state.board
+    let row = Math.floor(Math.random() * 9)
+    let col = Math.floor(Math.random() * 10)
+
+    if (!newBoard[row][col] && !newBoard[row][col+1]) {
+      newBoard[row][col] = SHIP
+      newBoard[row][col+1] = SHIP
+    } else {
+      this.cruiserHorizontal()
+    }
+  }
+
+  patrolBoatVertical() {
+    let newBoard = this.state.board
+    let row = Math.floor(Math.random() * 10)
+    let col = Math.floor(Math.random() * 10)
+
+    if (!newBoard[row][col]) {
+      newBoard[row][col] = SHIP
+    } else {
+      this.patrolBoatVertical()
+    }
+  }
+
+  patrolBoatHorizontal() {
+    let newBoard = this.state.board
+    let row = Math.floor(Math.random() * 10)
+    let col = Math.floor(Math.random() * 10)
+
+    if (!newBoard[row][col]) {
+      newBoard[row][col] = SHIP
+    } else {
+      this.patrolBoatHorizontal
+    }
+  }
+
+  placeShips() {
+    let newBoard = this.state.board
+    let coinFlip = Math.floor(Math.random() * 2)
+    if (coinFlip === 0) {
+      this.aircraftCarrierVertical()
+    } else {
+      this.aircraftCarrierHorizontal()
+    }
+    if (coinFlip === 0) {
+      this.uShipVertical()
+    } else {
+      this.uShipHorizontal()
+    }
+    if (coinFlip === 0) {
+      this.submarineVertical()
+    } else {
+      this.submarineHorizontal()
+    }
+    if (coinFlip === 0) {
+      this.cruiserVertical()
+    } else {
+      this.cruiserHorizontal()
+    }
+    if (coinFlip === 0) {
+      this.patrolBoatVertical()
+    } else {
+      this.patrolBoatHorizontal()
+    }
   }
 
   clickHandler(row, col, e) {
     const board = this.state.board
 
-    if (board[col][row] === SHIP) {
+    if (this.state.torpedoes === 0) {
+      alert('Game Over')
+
+    } else if (board[col][row] === SHIP) {
       board[col][row] = SHIP_HIT
       e.target.style.backgroundColor = 'green'
+      this.setState({
+        board: board,
+        torpedoes: this.state.torpedoes -= 1
+      })
+
     } else if (board[col][row] === EMPTY) {
       board[col][row] = EMPTY_HIT
       e.target.style.backgroundColor = 'red'
+      this.setState({
+        board: board,
+        torpedoes: this.state.torpedoes -= 1
+      })
+
+    } else if (board[col][row] === SHIP_HIT || board[col][row] === EMPTY_HIT) {
+      alert("Already shot here! Choose another location.")
+      console.log(board)
+    } else {
+      this.setState({
+        board: board,
+        torpedoes: this.state.torpedoes -= 1
+      })
     }
-    this.setState({board})
   }
 
   renderRow(row) {
@@ -79,7 +251,7 @@ class Board extends Component {
       set.push(
         <td id={theXY}
             key={theXY}
-            onClick={this.clickHandler.bind(this,col, row)}
+            onClick={this.clickHandler.bind(this, col, row)}
             style={{backgroundColor:this.state.bgColor}}
 
         >
@@ -91,20 +263,24 @@ class Board extends Component {
   }
 
   renderRows() {
-      const rows = [];
-      for (let i = 0; i < 10; i++) {
-        rows.push(<tr key={i}>{this.renderRow(i)}</tr>);
-      }
-      return rows;
+    const rows = [];
+    for (let i = 0; i < 10; i++) {
+      rows.push(<tr key={i}>{this.renderRow(i)}</tr>);
+    }
+    return rows;
   }
 
   render() {
     return (
-      <table>
-        <tbody>
-          { this.renderRows() }
-        </tbody>
-      </table>
+      <div>
+        <table>
+          <tbody>
+            { this.renderRows() }
+          </tbody>
+        </table>
+        <span className="torpedo">Torpedoes: {this.state.torpedoes}</span>
+        <span className="ships">Battleships: {this.state.battleships}</span>
+      </div>
     )
   }
 }
